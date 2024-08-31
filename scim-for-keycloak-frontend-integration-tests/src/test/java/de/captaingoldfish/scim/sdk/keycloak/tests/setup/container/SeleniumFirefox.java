@@ -1,5 +1,8 @@
 package de.captaingoldfish.scim.sdk.keycloak.tests.setup.container;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.UnexpectedAlertBehaviour;
@@ -46,22 +49,22 @@ public class SeleniumFirefox
    */
   public void stop()
   {
-    try
-    {
-      firefox.getWebDriver().close();
-    }
-    catch (Exception ex)
-    {
-      log.warn("could not close selenium web driver properly", ex);
-    }
-    try
-    {
-      firefox.stop();
-    }
-    catch (Exception ex)
-    {
-      log.warn("could not close selenium docker container properly", ex);
-    }
+    // try
+    // {
+    // firefox.getWebDriver().close();
+    // }
+    // catch (Exception ex)
+    // {
+    // log.warn("could not close selenium web driver properly", ex);
+    // }
+    // try
+    // {
+    // firefox.stop();
+    // }
+    // catch (Exception ex)
+    // {
+    // log.warn("could not close selenium docker container properly", ex);
+    // }
   }
 
   /**
@@ -77,9 +80,9 @@ public class SeleniumFirefox
    */
   private void configure()
   {
-    RemoteWebDriver webDriver = getDriver();
-    webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    webDriver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
-    webDriver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
+    // RemoteWebDriver webDriver = getDriver();
+    // webDriver.manage().timeouts().implicitlyWait(Duration.of(5, ChronoUnit.SECONDS));
+    // webDriver.manage().timeouts().pageLoadTimeout(Duration.of(5, ChronoUnit.SECONDS));
+    // webDriver.manage().timeouts().scriptTimeout(Duration.of(5, ChronoUnit.SECONDS));
   }
 }

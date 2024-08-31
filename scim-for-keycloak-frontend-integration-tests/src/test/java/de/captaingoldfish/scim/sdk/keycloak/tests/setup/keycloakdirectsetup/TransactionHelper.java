@@ -1,6 +1,6 @@
 package de.captaingoldfish.scim.sdk.keycloak.tests.setup.keycloakdirectsetup;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import lombok.SneakyThrows;
 

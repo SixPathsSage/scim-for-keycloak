@@ -2,7 +2,7 @@ package de.captaingoldfish.scim.sdk.keycloak.tests.setup.keycloakdirectsetup;
 
 import java.util.stream.Stream;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.keycloak.connections.jpa.DefaultJpaConnectionProvider;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
@@ -16,12 +16,9 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserCredentialManager;
 import org.keycloak.models.UserModel;
 import org.keycloak.policy.DefaultPasswordPolicyManagerProvider;
 import org.keycloak.policy.PasswordPolicyManagerProvider;
-import org.keycloak.services.DefaultKeycloakContext;
-import org.keycloak.services.DefaultKeycloakSessionFactory;
 import org.keycloak.services.DefaultKeycloakTransactionManager;
 import org.mockito.Mockito;
 
@@ -83,9 +80,9 @@ class KeycloakMockSetup
   {
     this.keycloakSession = keycloakSession;
     this.entityManager = entityManager;
-    this.keycloakContext = Mockito.spy(new DefaultKeycloakContext(keycloakSession));
+    // this.keycloakContext = Mockito.spy(new DefaultKeycloakContext(keycloakSession));
     Mockito.doReturn(keycloakContext).when(this.keycloakSession).getContext();
-    this.keycloakSessionFactory = Mockito.spy(new DefaultKeycloakSessionFactory());
+    // this.keycloakSessionFactory = Mockito.spy(new DefaultKeycloakSessionFactory());
     Mockito.doReturn(keycloakSessionFactory).when(this.keycloakSession).getKeycloakSessionFactory();
     keycloakTransactionManager = Mockito.spy(new DefaultKeycloakTransactionManager(keycloakSession));
     Mockito.doReturn(keycloakTransactionManager).when(keycloakSession).getTransactionManager();
