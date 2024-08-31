@@ -68,18 +68,46 @@ public class ScimEndpoint extends AbstractEndpoint
     return new AdminstrationResource(getKeycloakSession(), authentication);
   }
 
+  @POST
+  @Path(ContextPaths.SCIM_ENDPOINT_PATH + "/{s:.*}")
+  @Produces(HttpHeader.SCIM_CONTENT_TYPE)
+  public Response handlePost(String requestBody) {
+    return handleScimRequest(requestBody);
+  }
+
+  @GET
+  @Path(ContextPaths.SCIM_ENDPOINT_PATH + "/{s:.*}")
+  @Produces(HttpHeader.SCIM_CONTENT_TYPE)
+  public Response handleGet(String requestBody) {
+    return handleScimRequest(requestBody);
+  }
+
+  @PUT
+  @Path(ContextPaths.SCIM_ENDPOINT_PATH + "/{s:.*}")
+  @Produces(HttpHeader.SCIM_CONTENT_TYPE)
+  public Response handlePut(String requestBody) {
+    return handleScimRequest(requestBody);
+  }
+
+  @PATCH
+  @Path(ContextPaths.SCIM_ENDPOINT_PATH + "/{s:.*}")
+  @Produces(HttpHeader.SCIM_CONTENT_TYPE)
+  public Response handlePatch(String requestBody) {
+    return handleScimRequest(requestBody);
+  }
+
+  @DELETE
+  @Path(ContextPaths.SCIM_ENDPOINT_PATH + "/{s:.*}")
+  @Produces(HttpHeader.SCIM_CONTENT_TYPE)
+  public Response handleDelete(String requestBody) {
+    return handleScimRequest(requestBody);
+  }
+
   /**
    * handles all SCIM requests
    *
    * @return the jax-rs response
    */
-  @POST
-  @GET
-  @PUT
-  @PATCH
-  @DELETE
-  @Path(ContextPaths.SCIM_ENDPOINT_PATH + "/{s:.*}")
-  @Produces(HttpHeader.SCIM_CONTENT_TYPE)
   public Response handleScimRequest(String requestBody)
   {
     ScimServiceProviderService scimServiceProviderService = new ScimServiceProviderService(getKeycloakSession());
@@ -98,12 +126,12 @@ public class ScimEndpoint extends AbstractEndpoint
     String query = getQuery(keycloakSession.getContext().getUri().getQueryParameters());
     final HttpRequest request = keycloakSession.getContext().getHttpRequest();
     ScimResponse scimResponse = resourceEndpoint.handleRequest(url + query,
-                                                               HttpMethod.valueOf(request.getHttpMethod()),
-                                                               requestBody,
-                                                               getHttpHeaders(request),
-                                                               null,
-                                                               commitOrRollback(),
-                                                               scimKeycloakContext);
+            HttpMethod.valueOf(request.getHttpMethod()),
+            requestBody,
+            getHttpHeaders(request),
+            null,
+            commitOrRollback(),
+            scimKeycloakContext);
     return scimResponse.buildResponse();
   }
 
@@ -157,8 +185,9 @@ public class ScimEndpoint extends AbstractEndpoint
     httpRequest.getHttpHeaders().getRequestHeaders().forEach((headerName, value) -> {
       String headerValue = value.get(0);
 
-      boolean isContentTypeHeader = HttpHeader.CONTENT_TYPE_HEADER.toLowerCase(Locale.ROOT)
-                                                                  .equals(headerName.toLowerCase(Locale.ROOT));
+      boolean isContentTypeHeader = HttpHeader.CONTENT_TYPE_HEADER
+              .toLowerCase(Locale.ROOT)
+              .equals(headerName.toLowerCase(Locale.ROOT));
       boolean isApplicationJson = StringUtils.startsWithIgnoreCase(headerValue, "application/json");
       if (isContentTypeHeader && isApplicationJson)
       {
