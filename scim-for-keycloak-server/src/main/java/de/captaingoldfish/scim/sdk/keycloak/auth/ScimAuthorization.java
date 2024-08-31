@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.NotAuthorizedException;
 
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;

@@ -1,6 +1,6 @@
 package de.captaingoldfish.scim.sdk.keycloak.services;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;

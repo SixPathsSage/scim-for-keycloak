@@ -7,19 +7,19 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.PATCH;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jboss.resteasy.spi.HttpRequest;
+import org.keycloak.http.HttpRequest;
 import org.keycloak.models.KeycloakSession;
 
 import de.captaingoldfish.scim.sdk.common.constants.HttpHeader;
@@ -96,7 +96,7 @@ public class ScimEndpoint extends AbstractEndpoint
 
     final String url = keycloakSession.getContext().getUri().getAbsolutePath().toString();
     String query = getQuery(keycloakSession.getContext().getUri().getQueryParameters());
-    final HttpRequest request = keycloakSession.getContext().getContextObject(HttpRequest.class);
+    final HttpRequest request = keycloakSession.getContext().getHttpRequest();
     ScimResponse scimResponse = resourceEndpoint.handleRequest(url + query,
                                                                HttpMethod.valueOf(request.getHttpMethod()),
                                                                requestBody,

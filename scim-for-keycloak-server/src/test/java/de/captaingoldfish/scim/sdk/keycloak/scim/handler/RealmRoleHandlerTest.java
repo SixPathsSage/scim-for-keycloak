@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -147,7 +147,7 @@ public class RealmRoleHandlerTest extends AbstractScimEndpointTest
     RoleModel creator = getKeycloakSession().roles().addRealmRole(getRealmModel(), "creator");
     RoleModel destroyer = getKeycloakSession().roles().addRealmRole(getRealmModel(), "destroyer");
 
-    ClientProvider clientProvider = getKeycloakSession().realms();
+    ClientProvider clientProvider = getKeycloakSession().clients();
     ClientModel clientModel = clientProvider.addClient(getRealmModel(), "test-client");
     RoleModel testClientRole = getKeycloakSession().roles().addClientRole(clientModel, "test-client-role");
 
@@ -212,7 +212,7 @@ public class RealmRoleHandlerTest extends AbstractScimEndpointTest
     RoleModel creator = getKeycloakSession().roles().addRealmRole(getRealmModel(), "creator");
     RoleModel destroyer = getKeycloakSession().roles().addRealmRole(getRealmModel(), "destroyer");
 
-    ClientProvider clientProvider = getKeycloakSession().realms();
+    ClientProvider clientProvider = getKeycloakSession().clients();
     ClientModel clientModel = clientProvider.addClient(getRealmModel(), "test-client");
     RoleModel testClientRole = getKeycloakSession().roles().addClientRole(clientModel, "test-client-role");
 
@@ -398,7 +398,7 @@ public class RealmRoleHandlerTest extends AbstractScimEndpointTest
     RoleModel creator = getKeycloakSession().roles().addRealmRole(getRealmModel(), "creator");
     RoleModel destroyer = getKeycloakSession().roles().addRealmRole(getRealmModel(), "destroyer");
 
-    ClientProvider clientProvider = getKeycloakSession().realms();
+    ClientProvider clientProvider = getKeycloakSession().clients();
     ClientModel clientModel = clientProvider.addClient(getRealmModel(), "test-client");
     RoleModel testClientRole = getKeycloakSession().roles().addClientRole(clientModel, "test-client-role");
 

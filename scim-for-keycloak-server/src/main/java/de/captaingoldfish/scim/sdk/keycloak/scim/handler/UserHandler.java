@@ -3,6 +3,7 @@ package de.captaingoldfish.scim.sdk.keycloak.scim.handler;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -125,7 +126,7 @@ public class UserHandler extends ResourceHandler<User>
     // TODO in order to filter on database level the feature "autoFiltering" must be disabled and the JPA criteria
     // api should be used
     RealmModel realmModel = keycloakSession.getContext().getRealm();
-    Stream<UserModel> userModels = keycloakSession.users().getUsersStream(realmModel);
+    Stream<UserModel> userModels = keycloakSession.users().searchForUserStream(realmModel, Map.of());
     List<User> userList = userModels.map(this::modelToUser).collect(Collectors.toList());
     return PartialListResponse.<User> builder().totalResults(userList.size()).resources(userList).build();
   }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +27,6 @@ import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
-import org.keycloak.models.UserCredentialManager;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserProvider;
 import org.keycloak.models.jpa.JpaRealmProvider;
@@ -38,10 +37,6 @@ import org.keycloak.services.DefaultKeycloakContext;
 import org.keycloak.services.DefaultKeycloakSessionFactory;
 import org.keycloak.services.DefaultKeycloakTransactionManager;
 import org.keycloak.storage.DatastoreProvider;
-import org.keycloak.storage.GroupStorageManager;
-import org.keycloak.storage.LegacyStoreManagers;
-import org.keycloak.storage.RoleStorageManager;
-import org.keycloak.storage.datastore.LegacyDatastoreProvider;
 import org.mockito.Mockito;
 
 
@@ -111,9 +106,9 @@ class KeycloakMockSetup
   {
     this.keycloakSession = keycloakSession;
     this.entityManager = entityManager;
-    this.keycloakContext = Mockito.spy(new DefaultKeycloakContext(keycloakSession));
+    // this.keycloakContext = Mockito.spy(new DefaultKeycloakContext(keycloakSession));
     Mockito.doReturn(keycloakContext).when(this.keycloakSession).getContext();
-    this.keycloakSessionFactory = Mockito.spy(new DefaultKeycloakSessionFactory());
+    // this.keycloakSessionFactory = Mockito.spy(new DefaultKeycloakSessionFactory());
     Mockito.doReturn(keycloakSessionFactory).when(this.keycloakSession).getKeycloakSessionFactory();
     keycloakTransactionManager = Mockito.spy(new DefaultKeycloakTransactionManager(keycloakSession));
     Mockito.doReturn(keycloakTransactionManager).when(keycloakSession).getTransactionManager();
@@ -126,7 +121,7 @@ class KeycloakMockSetup
     ClientConnection clientConnection = Mockito.mock(ClientConnection.class);
     Mockito.doReturn(clientConnection).when(keycloakContext).getConnection();
 
-    eventStoreProvider = new JpaEventStoreProvider(this.keycloakSession, this.entityManager, Integer.MAX_VALUE);
+    eventStoreProvider = new JpaEventStoreProvider(this.keycloakSession, this.entityManager);
     Mockito.doReturn(eventStoreProvider).when(this.keycloakSession).getProvider(EventStoreProvider.class);
 
     setupPasswordManagingSettings();
@@ -152,8 +147,8 @@ class KeycloakMockSetup
   {
     JpaUserProvider jpaUserProvider = new JpaUserProvider(keycloakSession, entityManager);
     Mockito.doReturn(jpaUserProvider).when(this.keycloakSession).users();
-    LegacyStoreManagers legacyStoreManagers = new LegacyDatastoreProvider(null, keycloakSession);
-    Mockito.doReturn(legacyStoreManagers).when(this.keycloakSession).getProvider(DatastoreProvider.class);
+    // LegacyStoreManagers legacyStoreManagers = new LegacyDatastoreProvider(null, keycloakSession);
+    // Mockito.doReturn(legacyStoreManagers).when(this.keycloakSession).getProvider(DatastoreProvider.class);
     Mockito.doReturn(jpaUserProvider).when(this.keycloakSession).getProvider(UserProvider.class);
     // provider password credential provider factory streams for password tests
     {

@@ -5,9 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
 
 import org.h2.tools.Server;
 import org.hibernate.internal.SessionImpl;
@@ -105,7 +103,7 @@ class DatabaseSetup
    */
   private static void addAdditionalEntities(Map<String, Object> properties)
   {
-    properties.put(org.hibernate.jpa.AvailableSettings.LOADED_CLASSES, new ScimJpaEntityProvider().getEntities());
+    properties.put(org.hibernate.cfg.AvailableSettings.LOADED_CLASSES, new ScimJpaEntityProvider().getEntities());
   }
 
   /**
@@ -121,14 +119,14 @@ class DatabaseSetup
                                                                          false)
                                              .createEntityManager();
     JpaUserProvider jpaUserProvider = new JpaUserProvider(keycloakSession, newEntityManager);
-    JpaRealmProvider jpaRealmProvider = new JpaRealmProvider(keycloakSession, newEntityManager, Collections.emptySet());
+    JpaRealmProvider jpaRealmProvider = new JpaRealmProvider(keycloakSession, newEntityManager, Collections.emptySet(),
+                                                             Collections.emptySet());
     Mockito.doReturn(new UserStorageManager(keycloakSession)).when(keycloakSession).users();
-    Mockito.doReturn(jpaUserProvider).when(keycloakSession).userLocalStorage();
+    Mockito.doReturn(jpaUserProvider).when(keycloakSession).users();
     Mockito.doReturn(jpaRealmProvider).when(keycloakSession).realms();
-    Mockito.doReturn(jpaRealmProvider).when(keycloakSession).realmLocalStorage();
     ClientProvider clientProvider = Mockito.spy(new ClientStorageManager(keycloakSession, 10000));
     Mockito.doReturn(jpaRealmProvider).when(keycloakSession).clients();
-    Mockito.doReturn(clientProvider).when(keycloakSession).clientLocalStorage();
+    Mockito.doReturn(clientProvider).when(keycloakSession).clients();
     Mockito.doReturn(new DefaultJpaConnectionProvider(newEntityManager))
            .when(keycloakSession)
            .getProvider(JpaConnectionProvider.class);
@@ -149,7 +147,9 @@ class DatabaseSetup
     log.trace("building database with liquibase");
     try
     {
-      JdbcConnection jdbcConnection = new JdbcConnection(entityManager.unwrap(SessionImpl.class).connection());
+      JdbcConnection jdbcConnection = new JdbcConnection(entityManager.unwrap(SessionImpl.class)
+                                                                      .getJdbcConnectionAccess()
+                                                                      .obtainConnection());
       Database db = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(jdbcConnection);
       ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(ScimEndpointProviderFactory.class.getClassLoader());
       final Liquibase liquibaseKeycloak = new Liquibase("META-INF/jpa-changelog-master.xml", resourceAccessor, db);
@@ -162,6 +162,10 @@ class DatabaseSetup
     catch (LiquibaseException e)
     {
       throw new RuntimeException("Error during liquibase execution", e); // NOPMD
+    }
+    catch (SQLException e)
+    {
+      throw new RuntimeException("Error during establishing connection", e);
     }
   }
 }

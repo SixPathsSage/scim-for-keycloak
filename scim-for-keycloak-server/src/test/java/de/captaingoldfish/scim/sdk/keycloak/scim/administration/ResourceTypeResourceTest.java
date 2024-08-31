@@ -1,6 +1,6 @@
 package de.captaingoldfish.scim.sdk.keycloak.scim.administration;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

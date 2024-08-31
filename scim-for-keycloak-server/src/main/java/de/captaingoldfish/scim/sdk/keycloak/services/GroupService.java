@@ -2,11 +2,11 @@ package de.captaingoldfish.scim.sdk.keycloak.services;
 
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
@@ -49,7 +49,7 @@ public class GroupService extends AbstractService
     try
     {
       GroupEntity groupEntity = entityManager.createQuery(criteriaQuery).getSingleResult();
-      return Optional.of(new GroupAdapter(realmModel, entityManager, groupEntity));
+      return Optional.of(new GroupAdapter(getKeycloakSession(), realmModel, entityManager, groupEntity));
     }
     catch (NoResultException ex)
     {

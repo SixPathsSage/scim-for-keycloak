@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedHashMap;
 
-import org.jboss.resteasy.spi.HttpRequest;
+import org.keycloak.http.HttpRequest;
 import org.keycloak.models.KeycloakContext;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakUriInfo;
@@ -38,7 +38,7 @@ public class RequestMock
   {
     this.scimEndpoint = scimEndpoint;
     KeycloakContext keycloakContext = keycloakSession.getContext();
-    Mockito.doReturn(request).when(keycloakContext).getContextObject(Mockito.eq(HttpRequest.class));
+    Mockito.doReturn(request).when(keycloakContext).getHttpRequest();
     Mockito.doReturn(uriInfo).when(keycloakContext).getUri();
     Mockito.doReturn(new MultivaluedHashMap<>()).when(uriInfo).getQueryParameters();
     Map<String, String> defaultHeaders = new HashMap<>();

@@ -2,7 +2,7 @@ package de.captaingoldfish.scim.sdk.keycloak.setup;
 
 import java.math.BigInteger;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
